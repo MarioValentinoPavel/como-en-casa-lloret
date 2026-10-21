@@ -255,44 +255,5 @@
     [L('Copa grande de sangría', 'Copa gran de sangria', 'Large glass of sangria', 'Grand verre de sangria'), 5]
   ];
 
-  // ---------- planes para dos ----------
-  // cada línea: [nombre, cantidad, precio unitario, miniatura, nota]
-  const planes = [
-    { id: 'cita', vaso: 'alto', c: ['#ff8aa0', '#d61f4a'],
-      t: L('Primera cita', 'Primera cita', 'First date', 'Premier rendez-vous'),
-      s: L('Fresco, ligero y con chispa.', 'Fresc, lleuger i amb espurna.', 'Fresh, light and with a spark.', 'Frais, léger et pétillant.'),
-      lines: [
-        ['Ceviche', 1, 19, 'ceviche', L('Lima que despierta', 'Llima que desperta', 'Lime that wakes you up', 'Du citron vert qui réveille')],
-        ['Tacos', 1, 11, 'tacos-real', L('Para compartir con las manos', 'Per compartir amb les mans', 'To share with your hands', 'À partager avec les doigts')],
-        ['Mojito de fresa', 2, 9.5, null, L('Fresa y menta', 'Maduixa i menta', 'Strawberry and mint', 'Fraise et menthe')],
-        ['Tarta de chocolate', 1, 5.5, 'tartas', L('Una, con dos cucharas', 'Una, amb dues culleres', 'One slice, two spoons', 'Une part, deux cuillères')]
-      ] },
-    { id: 'fuego', vaso: 'margarita', c: ['#f2f6cf', '#d7e79f'],
-      t: L('Fuego lento', 'Foc lent', 'Slow burn', 'Feu doux'),
-      s: L('Picante para empezar, frío para terminar.', 'Picant per començar, fred per acabar.', 'Spicy to start, ice-cold to finish.', 'Pimenté pour commencer, glacé pour finir.'),
-      lines: [
-        ['Nachos caseros', 1, 17.5, 'nachos-real', L('Jalapeño y guacamole', 'Jalapeny i guacamole', 'Jalapeño and guacamole', 'Jalapeño et guacamole')],
-        ['Gambas al ajillo', 1, 14, 'gambas', L('Ajo y guindilla', 'All i bitxo', 'Garlic and chilli', 'Ail et piment')],
-        ['Margarita', 2, 9, null, L('Lima y sal en el borde', 'Llima i sal a la vora', 'Lime and a salted rim', 'Citron vert et bord salé')],
-        ['Sorbete de mandarina con nata', 1, 5.5, 'sorbete', L('Para bajar la temperatura', 'Per baixar la temperatura', 'To bring the heat down', 'Pour faire redescendre la température')]
-      ] },
-    { id: 'aniversario', vaso: 'copa', c: ['#fbe3a8', '#f1c76a'], bubbles: 1,
-      t: L('Aniversario', 'Aniversari', 'Anniversary', 'Anniversaire'),
-      s: L('Una sartén, dos cucharas y burbujas.', 'Una paella, dues culleres i bombolles.', 'One pan, two spoons and bubbles.', 'Une poêle, deux cuillères et des bulles.'),
-      lines: [
-        ['Paella', 2, 14.9, 'paella', L('Al centro de la mesa', 'Al mig de la taula', 'In the middle of the table', 'Au centre de la table')],
-        ['Sangría de cava (1 L)', 1, 15, null, L('Burbujas y fruta', 'Bombolles i fruita', 'Bubbles and fruit', 'Des bulles et des fruits')],
-        ['Catalanet', 2, 5.5, 'catalanet', L('Turrón, nata y ratafía', 'Torró, nata i ratafia', 'Turrón, cream and ratafia', 'Touron, chantilly et ratafia')]
-      ] },
-    { id: 'tropical', vaso: 'alto', c: ['#ffe27a', '#f2c230'],
-      t: L('Antojo tropical', 'Antull tropical', 'Tropical craving', 'Envie tropicale'),
-      s: L('Medio continente en una mesa.', 'Mig continent en una taula.', 'Half a continent on one table.', 'Un demi-continent sur une table.'),
-      lines: [
-        ['Picada colombiana', 1, 28.5, 'picada-colombiana', L('Carnes, yuca y plátano', 'Carns, iuca i plàtan', 'Meats, yuca and plantain', 'Viandes, manioc et plantain')],
-        ['Salteñas', 2, 5.2, 'saltenas', L('Con las manos y con cuidado', 'Amb les mans i amb compte', 'With your hands, carefully', 'Avec les mains, délicatement')],
-        ['Batido de maracuyá', 2, 7.5, null, L('La fruta de la pasión', 'La fruita de la passió', 'Passion fruit, literally', 'Le fruit de la passion')]
-      ] }
-  ];
-
-  window.CARTA = { L, SIDES, cats, copas, batidos, batidoAf, smoothies, sangria, planes };
+  window.CARTA = { L, SIDES, cats, copas, batidos, batidoAf, smoothies, sangria };
 })();

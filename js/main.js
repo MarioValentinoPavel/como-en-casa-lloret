@@ -208,76 +208,6 @@
   if (window.ScrollTrigger) ScrollTrigger.create({ trigger: '#copas', start: 'top 78%', onEnter: () => { if (!barraFilled) fillCopas(false); } });
   else new IntersectionObserver(([e], o) => { if (e.isIntersecting) { fillCopas(false); o.disconnect(); } }, { threshold: 0.25 }).observe($('#copas'));
 
-  // ---------- una mesa para dos ----------
-  let plan = null, bookedPlan = null;
-  function drinkSpec(name) {
-    const c = C.copas.find((x) => x.n === name);
-    if (c) return c;
-    if (/^Sangr/.test(name)) return { v: 'copa', c: ['#fbe3a8', '#f1c76a'], bubbles: 1 };
-    return { v: 'alto', c: ['#ffe27a', '#f2c230'], ice: 1 };
-  }
-  function miniCopa(spec) {
-    const cp = window.Copa(Object.assign({}, spec, { gar: [], straw: null, salt: 0 }));
-    const y = cp.top + (cp.bottom - cp.top) * 0.08;
-    return cp.svg.replace(/class="liq" style="transform:translateY\([\d.]+px\)"/, `class="liq" style="transform:translateY(${y}px)"`);
-  }
-  function renderPlanes() {
-    $('#planes').innerHTML = C.planes.map((p, i) => `<button type="button" class="plan" role="radio" aria-checked="${plan === p.id}" data-id="${p.id}"><span class="pn">0${i + 1}</span><b>${p.t[lang]}</b><span>${p.s[lang]}</span></button>`).join('');
-    $$('#planes .plan').forEach((b, i, all) => {
-      b.tabIndex = (plan ? b.dataset.id === plan : i === 0) ? 0 : -1;
-      b.addEventListener('click', () => selectPlan(b.dataset.id, true));
-      b.addEventListener('keydown', (e) => {
-        const k = ['ArrowDown', 'ArrowRight'].includes(e.key) ? 1 : ['ArrowUp', 'ArrowLeft'].includes(e.key) ? -1 : 0;
-        if (!k) return; e.preventDefault();
-        const nb = all[(i + k + all.length) % all.length]; selectPlan(nb.dataset.id, true); nb.focus();
-      });
-    });
-    if (plan) renderMesa(false);
-  }
-  function selectPlan(id, anim) {
-    plan = id;
-    $$('#planes .plan').forEach((b) => { const on = b.dataset.id === id; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });
-    renderMesa(anim);
-  }
-  function renderMesa(anim) {
-    const p = C.planes.find((x) => x.id === plan);
-    $('#mesa-h').textContent = p.t[lang];
-    $('#mesa-s').textContent = p.s[lang];
-    let total = 0;
-    $('#mesa-lista').innerHTML = p.lines.map(([n, q, pu, img, note]) => {
-      total += q * pu;
-      const pic = img ? `<img class="ml-img" src="assets/carta/${img}.jpg" alt="" width="58" height="58" loading="lazy">` : `<span class="ml-copa">${miniCopa(drinkSpec(n))}</span>`;
-      return `<li>${pic}<div><span class="ml-n"><span lang="es">${esc(n)}</span>${q > 1 ? `<small>× ${q}</small>` : ''}</span><span class="ml-nota">${esc(note[lang])}</span></div><span class="ml-p">${money(q * pu)}</span></li>`;
-    }).join('');
-    $('#mesa-total').textContent = money(total);
-    const spec = { v: p.vaso, c: p.c, bubbles: p.bubbles };
-    $('.b-l').innerHTML = miniCopa(spec); $('.b-r').innerHTML = miniCopa(spec);
-    if (anim && !reduced && window.gsap) {
-      gsap.fromTo('#mesa-lista li', { opacity: 0, x: 18 }, { opacity: 1, x: 0, duration: 0.7, ease: 'expo.out', stagger: 0.06, clearProps: 'opacity,transform' });
-      gsap.fromTo('#mesa-total', { opacity: 0 }, { opacity: 1, duration: 0.8, delay: 0.25, clearProps: 'opacity' });
-      const tl = gsap.timeline();
-      tl.fromTo('.b-l', { rotation: -6, x: -26 }, { rotation: 14, x: 6, duration: 0.55, ease: 'power3.in' }, 0)
-        .fromTo('.b-r', { rotation: 6, x: 26 }, { rotation: -14, x: -6, duration: 0.55, ease: 'power3.in' }, 0)
-        .fromTo('.chispa', { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.25, duration: 0.25, ease: 'expo.out' }, 0.5)
-        .to('.chispa', { opacity: 0, duration: 0.5 }, 0.8)
-        .to(['.b-l', '.b-r'], { rotation: 0, x: 0, duration: 1.1, ease: 'elastic.out(1, .45)' }, 0.62);
-    }
-  }
-  $('#plan-book').addEventListener('click', () => {
-    const p = C.planes.find((x) => x.id === plan);
-    if (!p) return;
-    bookedPlan = p.id;
-    setPeople(2);
-    renderPlanChip();
-  });
-  function renderPlanChip() {
-    const chip = $('#plan-chip');
-    const p = bookedPlan && C.planes.find((x) => x.id === bookedPlan);
-    chip.hidden = !p;
-    if (p) $('#plan-chip-name').textContent = p.t[lang];
-  }
-  $('#plan-x').addEventListener('click', () => { bookedPlan = null; renderPlanChip(); });
-
   // ---------- reserva por WhatsApp ----------
   let people = 2;
   const out = $('#n-out');
@@ -301,14 +231,27 @@
     if (!dayIn.value || isMonday(dayIn.value)) { dayIn.focus(); return; }
     const time = $('#r-time').value;
     const day = new Date(dayIn.value + 'T12:00:00').toLocaleDateString(LOCALE[lang], { weekday: 'long', day: 'numeric', month: 'long' });
-    const p = bookedPlan && C.planes.find((x) => x.id === bookedPlan);
     const msg = t('msg')({
       n: people, day, time, drinks: time === 'drinks',
       where: $('input[name="where"]:checked').value,
-      dog: $('#r-dog').checked, name: $('#r-name').value.trim(), plan: p ? p.t[lang] : ''
+      dog: $('#r-dog').checked, name: $('#r-name').value.trim()
     });
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
   });
+
+  // ---------- mapa de Google: solo con consentimiento ----------
+  const MAP_SRC = 'https://maps.google.com/maps?q=Bar%20Restaurant%20Como%20en%20Casa%20Mirian%20%26%20Salva%2C%20Av.%20del%20Rieral%2073%2C%2017310%20Lloret%20de%20Mar&z=16&output=embed';
+  function showMap() {
+    const box = $('#mapa');
+    if ($('iframe', box)) return;
+    const f = document.createElement('iframe');
+    f.src = MAP_SRC; f.title = 'Google Maps · Av. del Rieral, 73, Lloret de Mar'; f.loading = 'lazy'; f.allowFullscreen = true;
+    f.referrerPolicy = 'no-referrer-when-downgrade';
+    box.appendChild(f); box.classList.add('is-on');
+  }
+  function hideMap() { const f = $('#mapa iframe'); if (f) f.remove(); $('#mapa').classList.remove('is-on'); }
+  $('#mapa-load').addEventListener('click', () => { if (window.CEC_CONSENT) window.CEC_CONSENT.set({ maps: true }); else showMap(); });
+  if (window.CEC_CONSENT) window.CEC_CONSENT.onChange((c) => (c && c.maps ? showMap() : hideMap()));
 
   // ---------- idiomas ----------
   function applyLang(l) {
@@ -320,7 +263,10 @@
     $('#buscar').placeholder = t('carta.search');
     $('#hint span').textContent = fine ? t('hero.hint') : t('hero.hintTouch');
     renderHours(); renderStatus();
-    renderCarta(); renderBarra(); renderPlanes(); renderPlanChip();
+    renderCarta(); renderBarra();
+    // WhatsApp directo con un saludo en el idioma de la web
+    $$('.wa-link').forEach((a) => { a.href = `https://wa.me/${WA}?text=${encodeURIComponent(t('wa.msg'))}`; });
+    if (window.CEC_CONSENT) window.CEC_CONSENT.lang(l);
     try { localStorage.setItem('cec-lang', l); } catch (e) { /* sin almacenamiento */ }
   }
   $$('.langs button').forEach((b) => b.addEventListener('click', () => { if (b.dataset.lang !== lang) applyLang(b.dataset.lang); }));
@@ -329,7 +275,6 @@
   $$('[data-hoja]').forEach((p) => p.setAttribute('d', window.monsteraPath(+p.dataset.hoja)));
 
   applyLang(lang);
-  selectPlan(C.planes[0].id, false);
   setInterval(renderStatus, 60000);
 
   // ---------- selva y letrero ----------
@@ -395,13 +340,14 @@
   }
 
   // ---------- cabecera, barra móvil y anclas ----------
-  const top = $('#top-bar'), barra = $('#barra-movil'), pie = $('#pie');
+  const top = $('#top-bar'), barra = $('#barra-movil'), pie = $('#pie'), waFloat = $('#wa-flotante');
   let pieIn = false;
   new IntersectionObserver(([e]) => { pieIn = e.isIntersecting; onScroll(); }).observe(pie);
   function onScroll() {
     const past = window.scrollY > hero.offsetHeight - 90;
     top.classList.toggle('is-solid', past);
     barra.classList.toggle('show', past && !pieIn);
+    waFloat.classList.toggle('show', past && !pieIn);
   }
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
