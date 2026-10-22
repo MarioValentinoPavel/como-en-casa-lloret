@@ -175,6 +175,33 @@ section { position: relative; }
 .f-a { left: 0; top: 0; width: 60%; height: 76%; }
 .f-b { right: 0; bottom: 34px; width: 52%; height: 64%; }
 
+/* ---------- la receta de la pared ---------- */
+.receta { padding: clamp(70px, 9vw, 120px) 0 clamp(90px, 11vw, 150px); overflow: hidden; background: radial-gradient(60% 55% at 50% 50%, rgba(255, 181, 90, .08), rgba(255, 181, 90, 0) 70%); }
+.receta-in { position: relative; width: min(860px, 100% - 32px); margin: 0 auto; text-align: center; }
+.rc-ico { position: absolute; width: clamp(64px, 9vw, 110px); height: auto; fill: none; stroke: var(--crema); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: .32; }
+.rc-gorro { left: 2%; top: 6%; rotate: -14deg; }
+.rc-rodillo { right: 3%; top: 2%; }
+.rc-varillas { left: 0; bottom: 14%; }
+.rc-cubiertos { right: 1%; bottom: 20%; }
+.rc-orla { display: block; width: clamp(180px, 26vw, 240px); height: auto; margin: 0 auto 14px; fill: none; stroke: var(--pasion-tx); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.receta-h { font: 600 clamp(.95rem, 1.3vw, 1.1rem)/1 var(--sans); letter-spacing: .34em; text-transform: uppercase; color: var(--crema-2); padding-left: .34em; }
+.receta-lista { margin-top: clamp(24px, 3.5vw, 40px); display: grid; gap: clamp(2px, .6vw, 8px); }
+.receta-lista li { display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 0 .45em; font: 400 clamp(2rem, 4.6vw, 3.6rem)/1.08 var(--serif); letter-spacing: -.012em; }
+.receta-lista b { font: 600 clamp(1rem, 1.5vw, 1.25rem)/1 var(--sans); letter-spacing: .04em; color: var(--pasion-tx); translate: 0 -.12em; }
+.receta-lista .rc-1 span, .receta-lista .rc-5 span { font-style: italic; }
+.receta-lista .rc-3 { font-size: clamp(2.3rem, 5.4vw, 4.2rem); }
+.receta-lista .rc-5 span { color: var(--pasion-tx); }
+.receta-fin { margin-top: clamp(28px, 4vw, 46px); font: 400 clamp(1.45rem, 2.8vw, 2.2rem)/1.25 var(--serif); text-wrap: balance; }
+.receta-fin em { font-style: italic; color: var(--pasion-tx); }
+.receta-nota { margin-top: 18px; font-size: 13.5px; color: var(--crema-3); }
+@media (max-width: 640px) {
+  .rc-ico { opacity: .16; width: 70px; }
+  .rc-gorro { left: -10px; top: -4px; }
+  .rc-rodillo { right: -14px; top: -10px; }
+  .rc-varillas { left: -16px; bottom: 6%; }
+  .rc-cubiertos { right: -14px; bottom: 12%; }
+}
+
 /* ---------- 3 · especialidad ---------- */
 .especial { min-height: clamp(580px, 86vh, 860px); display: grid; align-items: center; overflow: hidden; }
 .esp-ph { position: absolute; inset: 0; }
