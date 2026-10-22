@@ -193,7 +193,6 @@ section { position: relative; }
 .receta-lista .rc-5 span { color: var(--pasion-tx); }
 .receta-fin { margin-top: clamp(28px, 4vw, 46px); font: 400 clamp(1.45rem, 2.8vw, 2.2rem)/1.25 var(--serif); text-wrap: balance; }
 .receta-fin em { font-style: italic; color: var(--pasion-tx); }
-.receta-nota { margin-top: 18px; font-size: 13.5px; color: var(--crema-3); }
 @media (max-width: 640px) {
   .rc-ico { opacity: .16; width: 70px; }
   .rc-gorro { left: -10px; top: -4px; }

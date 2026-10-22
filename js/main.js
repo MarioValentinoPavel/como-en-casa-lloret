@@ -343,8 +343,7 @@
         .from('.receta-h', { opacity: 0, y: 14, duration: 0.9, ease: 'expo.out', clearProps: 'transform,opacity' }, 0.1)
         .from('.receta-lista li', { opacity: 0, y: 30, rotation: (i) => (i % 2 ? 2.5 : -2.5), duration: 1.1, ease: 'expo.out', stagger: 0.14, clearProps: 'transform,opacity' }, 0.25)
         .from('.receta-fin', { opacity: 0, y: 20, duration: 1.2, ease: 'expo.out', clearProps: 'transform,opacity' }, '-=0.6')
-        .fromTo('.rc-varillas', { rotation: 0 }, { rotation: 12, duration: 0.18, ease: 'sine.inOut', yoyo: true, repeat: 5, transformOrigin: '15% 85%', clearProps: 'transform' }, '<0.2')
-        .from('.receta-nota', { opacity: 0, duration: 1, clearProps: 'opacity' }, '-=0.3');
+        .fromTo('.rc-varillas', { rotation: 0 }, { rotation: 12, duration: 0.18, ease: 'sine.inOut', yoyo: true, repeat: 5, transformOrigin: '15% 85%', clearProps: 'transform' }, '<0.2');
       gsap.from('.letrero-pie', { scale: 0.92, opacity: 0, duration: 1.4, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '#pie', start: 'top 80%', toggleActions: 'play none none none' } });
     }
   }
